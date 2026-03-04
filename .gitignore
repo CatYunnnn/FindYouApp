@@ -1,0 +1,44 @@
+gitignore
+# 編譯產物
+/build
+/captures
+*.iml
+.externalNativeBuild
+.cxx
+
+# Gradle 相關
+.gradle/
+/local.properties
+
+# Kotlin 相關
+*.kotlin_module
+
+# IntelliJ/Android Studio 相關
+.idea/caches
+.idea/libraries
+.idea/modules.xml
+.idea/workspace.xml
+.idea/navEditor.xml
+.idea/assetWizardSettings.xml
+# 或者直接忽略整個 .idea/ (如果沒有要共享 IDE 設定)
+# .idea/
+
+# 簽名金鑰與敏感檔案 (建議加入)
+*.jks
+*.keystore
+*.p12
+*.apk
+*.aab
+
+# 日誌與暫存檔
+*.log
+*.tmp
+*.swp
+
+# 作業系統相關
+.DS_Store
+Thumbs.db
+
+# NDK 相關
+obj/
+libs/
