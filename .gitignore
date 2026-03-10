@@ -20,6 +20,7 @@ gitignore
 .idea/workspace.xml
 .idea/navEditor.xml
 .idea/assetWizardSettings.xml
+.idea/
 # 或者直接忽略整個 .idea/ (如果沒有要共享 IDE 設定)
 # .idea/
 
