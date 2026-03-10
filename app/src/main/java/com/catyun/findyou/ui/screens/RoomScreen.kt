@@ -2,6 +2,7 @@ package com.catyun.findyou.ui.screens
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -40,8 +41,18 @@ data class MockPlayer(
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
-fun RoomScreen(modifier: Modifier = Modifier) {
-    RoomScreenContent(modifier = modifier)
+fun RoomScreen(
+    roomCode: String = "888666",
+    modifier: Modifier = Modifier,
+    onStartGame: () -> Unit = {},
+    onLeaveRoom: () -> Unit = {},
+) {
+    RoomScreenContent(
+        roomCode = roomCode,
+        modifier = modifier,
+        onStartClick = onStartGame,
+        onLeaveClick = onLeaveRoom,
+    )
 }
 
 @Suppress("ktlint:standard:function-naming")
@@ -50,12 +61,14 @@ private fun ActionButton3D(
     buttonColor: Color,
     shadowColor: Color,
     modifier: Modifier = Modifier,
+    onClick: () -> Unit = {},
     content: @Composable () -> Unit,
 ) {
     Box(
         modifier =
             modifier
-                .background(shadowColor, RoundedCornerShape(50)),
+                .background(shadowColor, RoundedCornerShape(50))
+                .clickable { onClick() },
         contentAlignment = Alignment.TopCenter,
     ) {
         Box(
@@ -162,7 +175,12 @@ private fun PlayerCard(
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
-fun RoomScreenContent(modifier: Modifier = Modifier) {
+fun RoomScreenContent(
+    roomCode: String = "888666",
+    modifier: Modifier = Modifier,
+    onStartClick: () -> Unit = {},
+    onLeaveClick: () -> Unit = {},
+) {
     val players =
         listOf(
             MockPlayer("小明", "🦊", Color(0xFFFFB74D), true),
@@ -196,7 +214,7 @@ fun RoomScreenContent(modifier: Modifier = Modifier) {
                     letterSpacing = 1.sp,
                 )
                 Text(
-                    text = "888 666",
+                    text = roomCode,
                     color = Color(0xFF42E8E0),
                     fontSize = 32.sp,
                     fontWeight = FontWeight.Black,
@@ -269,6 +287,7 @@ fun RoomScreenContent(modifier: Modifier = Modifier) {
                 Modifier
                     .fillMaxWidth()
                     .height(64.dp),
+            onClick = onStartClick,
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(

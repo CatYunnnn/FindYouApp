@@ -1,6 +1,7 @@
 package com.catyun.findyou.ui.screens
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -40,9 +41,14 @@ class HomeViewModel : ViewModel() {
 fun HomeScreen(
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = viewModel(),
+    onJoinRoom: (String) -> Unit = {},
 ) {
     // 將狀態從 ViewModel 提取出來並傳遞給 UI 層，遵循單向資料流 (UDF)
-    HomeScreenContent(modifier = modifier)
+    // 這裡暫時 hardcode 傳入 "888666" 作為測試
+    HomeScreenContent(
+        modifier = modifier,
+        onJoinRoomClick = { onJoinRoom("888666") },
+    )
 }
 
 @Suppress("ktlint:standard:function-naming")
@@ -54,11 +60,13 @@ fun Button3D(
     textColor: Color = Color.White,
     fontSize: TextUnit = 18.sp,
     modifier: Modifier = Modifier,
+    onClick: () -> Unit = {},
 ) {
     Box(
         modifier =
             modifier
-                .background(shadowColor, RoundedCornerShape(50)),
+                .background(shadowColor, RoundedCornerShape(50))
+                .clickable { onClick() },
         contentAlignment = Alignment.TopCenter,
     ) {
         Box(
@@ -81,7 +89,10 @@ fun Button3D(
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
-fun HomeScreenContent(modifier: Modifier = Modifier) {
+fun HomeScreenContent(
+    modifier: Modifier = Modifier,
+    onJoinRoomClick: () -> Unit = {},
+) {
     Column(
         modifier =
             modifier
@@ -162,6 +173,7 @@ fun HomeScreenContent(modifier: Modifier = Modifier) {
                     buttonColor = Color(0xFF27D051),
                     shadowColor = Color(0xFF169038),
                     textColor = Color.White,
+                    onClick = onJoinRoomClick,
                     modifier =
                         Modifier
                             .fillMaxWidth()

@@ -2,6 +2,7 @@ package com.catyun.findyou.ui.screens
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -45,8 +46,14 @@ data class PlayerTarget(
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
-fun GameScreen(modifier: Modifier = Modifier) {
-    GameScreenContent(modifier = modifier)
+fun GameScreen(
+    modifier: Modifier = Modifier,
+    onLeaveGame: () -> Unit = {},
+) {
+    GameScreenContent(
+        modifier = modifier,
+        onLeaveClick = onLeaveGame,
+    )
 }
 
 
@@ -217,7 +224,10 @@ private fun TargetButton3D(
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
-fun GameScreenContent(modifier: Modifier = Modifier) {
+fun GameScreenContent(
+    modifier: Modifier = Modifier,
+    onLeaveClick: () -> Unit = {},
+) {
     val targets =
         listOf(
             PlayerTarget("小華", "2.5km", Color(0xFFFF5252), angle = 45f, isPrimaryTarget = true),
@@ -258,7 +268,8 @@ fun GameScreenContent(modifier: Modifier = Modifier) {
                     modifier =
                         Modifier
                             .size(48.dp)
-                            .background(Color(0xFFFF5252), CircleShape),
+                            .background(Color(0xFFFF5252), CircleShape)
+                            .clickable { onLeaveClick() },
                     contentAlignment = Alignment.Center,
                 ) {
                     Icon(
