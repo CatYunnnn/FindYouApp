@@ -8,6 +8,7 @@ import com.catyun.findyou.ui.screens.GameScreen
 import com.catyun.findyou.ui.screens.HomeScreen
 import com.catyun.findyou.ui.screens.RoomScreen
 
+@Suppress("ktlint:standard:function-naming")
 @Composable
 fun NavGraph() {
     val navController = rememberNavController()
