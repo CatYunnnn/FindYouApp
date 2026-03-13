@@ -7,7 +7,7 @@ import androidx.navigation.NavDeepLink
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 
-// 定義所有的 Route 與對應的參數定義
+// 定義所有的 Route 與對應的參數定義，enum的建立固定物件方法
 enum class Screen(val route: String) {
     Home("home"),
     Room("room/{roomCode}"), // 可以帶入參數 例如 room/888666

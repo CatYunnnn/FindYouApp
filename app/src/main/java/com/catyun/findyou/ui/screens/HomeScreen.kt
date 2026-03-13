@@ -30,21 +30,20 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
-
-// ViewModel for MVVM Architecture
-class HomeViewModel : ViewModel() {
-    // TODO: 加入狀態與商業邏輯 (State & Business Logic)
-}
+import com.catyun.findyou.viewmodel.HomeViewModel
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
+    // viewModel會使用HomeViewModel建立instance然後放入ViewModelStore
     viewModel: HomeViewModel = viewModel(),
     onJoinRoom: (String) -> Unit = {},
 ) {
     // 將狀態從 ViewModel 提取出來並傳遞給 UI 層，遵循單向資料流 (UDF)
     // 這裡暫時 hardcode 傳入 "888666" 作為測試
+    val roomCode = viewModel.roomCode
+
     HomeScreenContent(
         modifier = modifier,
         onJoinRoomClick = { onJoinRoom("888666") },
@@ -165,6 +164,7 @@ fun HomeScreenContent(
                         Modifier
                             .fillMaxWidth()
                             .height(64.dp),
+                    onClick = {},
                 )
 
                 // Join Room Button
