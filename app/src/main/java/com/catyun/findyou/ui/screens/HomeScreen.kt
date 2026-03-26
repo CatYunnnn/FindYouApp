@@ -18,6 +18,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -30,23 +31,30 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.catyun.findyou.viewmodel.HomeViewModel
+import com.catyun.findyou.navigation.NavigationRoute
+import com.catyun.findyou.viewmodel.home.HomeUiState
+import com.catyun.findyou.viewmodel.home.HomeViewModel
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
-    // viewModel會使用HomeViewModel建立instance然後放入ViewModelStore
-    viewModel: HomeViewModel = viewModel(),
     onJoinRoom: (String) -> Unit = {},
 ) {
-    // 將狀態從 ViewModel 提取出來並傳遞給 UI 層，遵循單向資料流 (UDF)
-    // 這裡暫時 hardcode 傳入 "888666" 作為測試
-    val roomCode = viewModel.roomCode
+    val viewModel: HomeViewModel = viewModel()
+    val uiState = viewModel.uiState
 
     HomeScreenContent(
         modifier = modifier,
-        onJoinRoomClick = { onJoinRoom("888666") },
+        uiState = uiState,
+        onRoomCodeChange = viewModel::onRoomCodeChange,
+        onJoinRoomClick = {
+            val success = viewModel.onJoinClick()
+
+            if (success) {
+                onJoinRoom(uiState.roomCode)
+            }
+        },
     )
 }
 
@@ -90,6 +98,8 @@ fun Button3D(
 @Composable
 fun HomeScreenContent(
     modifier: Modifier = Modifier,
+    uiState: HomeUiState,
+    onRoomCodeChange: (String) -> Unit = {},
     onJoinRoomClick: () -> Unit = {},
 ) {
     Column(
@@ -155,17 +165,18 @@ fun HomeScreenContent(
         ) {
             Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
                 // Room Code Input
-                Button3D(
-                    text = "Room Code",
-                    buttonColor = Color.White,
-                    shadowColor = Color(0xFFD6D6D6),
-                    textColor = Color(0xFFAAAAAA),
-                    modifier =
-                        Modifier
-                            .fillMaxWidth()
-                            .height(64.dp),
-                    onClick = {},
+                OutlinedTextField(
+                    value = uiState.roomCode,
+                    onValueChange = onRoomCodeChange,
+                    placeholder = { Text("Room  Code") },
+                    singleLine = true,
+                    modifier = Modifier.fillMaxWidth(),
                 )
+
+                // Error Message
+                if (uiState.errorMessage != null) {
+                    Text(text = uiState.errorMessage!!, color = Color.Red, fontSize = 14.sp)
+                }
 
                 // Join Room Button
                 Button3D(
@@ -221,14 +232,5 @@ fun HomeScreenContent(
                 )
             }
         }
-    }
-}
-
-@Suppress("ktlint:standard:function-naming")
-@Preview(showBackground = true)
-@Composable
-fun HomeScreenPreview() {
-    MaterialTheme {
-        HomeScreenContent()
     }
 }
